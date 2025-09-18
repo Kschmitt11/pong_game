@@ -3,6 +3,8 @@ from paddle import Paddle
 from ball import Ball
 import time
 
+from scoreboard import Scoreboard
+
 screen = Screen()
 screen.setup(width=800, height=600)
 screen.bgcolor("black")
@@ -12,6 +14,8 @@ screen.tracer(0)
 r_paddle = Paddle((350, 0))
 l_paddle = Paddle((-350, 0))
 ball = Ball()
+p1_score = Scoreboard((-200, 260))
+p2_score = Scoreboard((200, 260))
 
 screen.listen()
 screen.onkeypress(fun=r_paddle.go_up, key="Up")
@@ -34,9 +38,11 @@ while game_is_on:
         ball.bounce_x()
 
     if ball.xcor() > 380:
+        p1_score.increase_score()
         ball.reset_ball()
 
     if ball.xcor() < -380:
+        p2_score.increase_score()
         ball.reset_ball()
 
     screen.update()
