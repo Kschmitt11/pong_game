@@ -14,8 +14,8 @@ screen.tracer(0)
 r_paddle = Paddle((350, 0))
 l_paddle = Paddle((-350, 0))
 ball = Ball()
-p1_score = Scoreboard((-200, 260))
-p2_score = Scoreboard((200, 260))
+p1_score = Scoreboard((-100, 200))
+p2_score = Scoreboard((100, 200))
 
 screen.listen()
 screen.onkeypress(fun=r_paddle.go_up, key="Up")
@@ -27,16 +27,19 @@ screen.onkeypress(fun=l_paddle.go_down, key="s")
 game_is_on = True
 
 while game_is_on:
-    time.sleep(0.1)
+    time.sleep(ball.move_speed)
     ball.move()
 
     if ball.ycor() > 280 or ball.ycor() < -280:
         ball.bounce_y()
 
-    if (ball.xcor() > 320 and ball.distance(r_paddle) < 50 or
-        ball.xcor() < -320 and ball.distance(l_paddle) < 50):
+    if ball.xcor() > 320 and ball.distance(r_paddle) < 50:
         ball.bounce_x()
 
+    if ball.xcor() < -320 and ball.distance(l_paddle) < 50:
+        ball.bounce_x()
+
+    #Scoreboard tallying
     if ball.xcor() > 380:
         p1_score.increase_score()
         ball.reset_ball()
